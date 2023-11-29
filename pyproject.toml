@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "dowels"
+version = "0.1.0"
+description = ""
+authors = ["Jack Michaud <jack@lomz.me>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+ortools = "^9.8.3296"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
