@@ -3,49 +3,53 @@ from ortools.linear_solver import pywraplp
 # Create the solver
 solver = pywraplp.Solver.CreateSolver("SCIP")
 
-# Define segments and quantities in inches
-segments = [8.6 * 0.393701, 17.2 * 0.393701, 25.8 * 0.393701, 34.4 * 0.393701]
+# Define segments and quantities in mm
+# 1-20k
+#segments = [43, 86, 129, 172]
+#quantities = [38, 38, 40, 15]
+
+# 0.5-20k
+segments = [86, 172, 258, 344]
 quantities = [38, 38, 40, 15]
 
-# Define the kerf in inches
-kerf = 0.02
+# Define the kerf in mm
+kerf = 1
 
 # Variable number of dowels up to some reasonable upper limit (for the sake of the MIP model)
 max_dowels = 50
 
+# Length of the stock we plan to purchase
+stock_length = 914
 
 # Initialize variables to represent if segment i is in dowel j
 x = {}
 for i in range(len(segments)):
-    for j in range(max_dowels):
-        x[i, j] = solver.BoolVar(f"x[{i},{j}]")
+        max_count = int(stock_length / (segments[i] + kerf)) #maximum number of segment i in a single dowel
+        for j in range(max_dowels):
+            x[i, j] = solver.IntVar(0, max_count, f'x[{i},{j}]')
 
 # Variables for whether each dowel is used
 used = [solver.BoolVar(f"used[{j}]") for j in range(max_dowels)]
-
 
 # Add constraints: each segment must be used according to the specified quantities
 for i in range(len(segments)):
     solver.Add(solver.Sum([x[i, j] for j in range(max_dowels)]) == quantities[i])
 
-
-# Add constraints: total length of segments in each dowel must not exceed 36 inches
+# Add constraints: total length of segments in each dowel must not exceed defined stock length
 for j in range(max_dowels):
     solver.Add(
         solver.Sum([x[i, j] * (segments[i] + kerf) for i in range(len(segments))])
         - kerf
-        <= 36
+        <= stock_length
     )
 
 # Objective: minimize the number of dowels used
 solver.Minimize(solver.Sum(used[j] for j in range(max_dowels)))
 
-
 # Solve the problem, setting a time limit of 1 minute
 solver.SetTimeLimit(60000)
 solver.EnableOutput()
 status = solver.Solve()
-
 
 # Output results
 if status == pywraplp.Solver.OPTIMAL or status == pywraplp.Solver.FEASIBLE:
