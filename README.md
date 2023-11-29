@@ -4,7 +4,7 @@
 This project involves creating an acoustic dampening panel that utilizes random lengths of square dowels to create varied reflections, thus dissipating sound energy effectively. The panel is designed to operate within the frequency range of 500-20000 Hz and measures 10x10 cm.
 
 ## Current Status
-An optimal solution has been found for cutting dowels using a mixed-integer programming (MIP) approach, which minimizes material waste and maximizes the use of available resources. As of the latest update, an optimal solution requires 40 dowels.
+An optimal solution has been found for cutting dowels using a mixed-integer programming (MIP) approach, which minimizes material waste and maximizes the use of available resources. As of the latest update, an optimal solution requires 15 dowels for 1000-20000 Hz and 30 dowels for 500-20000 Hz.
 
 ## Installation
 
