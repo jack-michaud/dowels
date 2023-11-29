@@ -4,14 +4,15 @@ from ortools.linear_solver import pywraplp
 solver = pywraplp.Solver.CreateSolver("SCIP")
 
 # Define segments and quantities in mm
+# 1-20k
 #segments = [43, 86, 129, 172]
 #quantities = [38, 38, 40, 15]
 
-#0.5-20k
+# 0.5-20k
 segments = [86, 172, 258, 344]
 quantities = [38, 38, 40, 15]
 
-# Define the kerf in inches
+# Define the kerf in mm
 kerf = 1
 
 # Variable number of dowels up to some reasonable upper limit (for the sake of the MIP model)
@@ -34,7 +35,7 @@ used = [solver.BoolVar(f"used[{j}]") for j in range(max_dowels)]
 for i in range(len(segments)):
     solver.Add(solver.Sum([x[i, j] for j in range(max_dowels)]) == quantities[i])
 
-# Add constraints: total length of segments in each dowel must not exceed 36 inches
+# Add constraints: total length of segments in each dowel must not exceed defined stock length
 for j in range(max_dowels):
     solver.Add(
         solver.Sum([x[i, j] * (segments[i] + kerf) for i in range(len(segments))])
