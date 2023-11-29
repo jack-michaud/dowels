@@ -2,7 +2,7 @@
 name = "dowels"
 version = "0.1.0"
 description = ""
-authors = ["Jack Michaud <jack@lomz.me>"]
+authors = ["Jack Michaud <jack@lomz.me>", "Ian Gelman <isgelman@wpi.edu>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
