@@ -14,6 +14,8 @@ To run the optimization script, you need to have Python installed, along with Go
 pip install ortools
 ```
 
+A `pyproject.toml` file is included to install the dependencies using [Poetry](https://python-poetry.org/), if you prefer. 
+
 ## Usage
 
 Execute the script to determine the optimal distribution of dowel cuts for the acoustic panel. The script includes constraints such as the kerf from cutting the dowels using a Japanese pull saw and the maximum dowel capacity. It outputs the number and length of cuts for each dowel. Run the script using:
