@@ -5,8 +5,8 @@ solver = pywraplp.Solver.CreateSolver("SCIP")
 
 # Define segments and quantities in mm
 # 1-20k
-#segments = [43, 86, 129, 172]
-#quantities = [38, 38, 40, 15]
+# segments = [43, 86, 129, 172]
+# quantities = [38, 38, 40, 15]
 
 # 0.5-20k
 segments = [86, 172, 258, 344]
@@ -24,9 +24,11 @@ stock_length = 914
 # Initialize variables to represent if segment i is in dowel j
 x = {}
 for i in range(len(segments)):
-        max_count = int(stock_length / (segments[i] + kerf)) #maximum number of segment i in a single dowel
-        for j in range(max_dowels):
-            x[i, j] = solver.IntVar(0, max_count, f'x[{i},{j}]')
+    max_count = int(
+        stock_length / (segments[i] + kerf)
+    )  # maximum number of segment i in a single dowel
+    for j in range(max_dowels):
+        x[i, j] = solver.IntVar(0, max_count, f"x[{i},{j}]")
 
 # Variables for whether each dowel is used
 used = [solver.BoolVar(f"used[{j}]") for j in range(max_dowels)]
